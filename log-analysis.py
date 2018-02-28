@@ -42,7 +42,17 @@ def most_popular_authors():
 		list_order += 1
 	print("")
 
+def days_request_errors():
+	query = """
+		SELECT date, error_perc 
+		FROM error_percentage 
+		WHERE error_perc > 1"""
+	days_errors = run_query(query)
+	print ('DAYS HAVE MORE THAN 1% OF REQUESTS LEAD TO ERRORS')
+	for i in days_errors:
+		print(str(i[0]) + ' - ' + str(round(i[1], 2)) + ' % errors')
 
 if __name__ == '__main__':
 	popular_three_articles()
 	most_popular_authors()
+	days_request_errors()
