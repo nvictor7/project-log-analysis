@@ -12,8 +12,8 @@ def run_query(query):
         rows = c.fetchall()
         db.close()
         return rows
-    except:
-        print ('Sorry, unable to connect to database')
+    except BaseException:
+        print('Sorry, unable to connect to database')
 
 
 # analysize aritcles and log tables and produce results of popular articles
@@ -24,7 +24,7 @@ def popular_three_articles():
         WHERE log.path = CONCAT('/article/', articles.slug)
         GROUP BY articles.title ORDER BY views DESC LIMIT 3;"""
     popular_articles = run_query(query)
-    print ('MOST POPULAR THREE ARTICLES OF ALL TIME')
+    print('MOST POPULAR THREE ARTICLES OF ALL TIME')
     list_order = 1
     for i in popular_articles:
         print(str(list_order) + '.' + i[0] + ' - ' + str(i[1]) + ' views')
@@ -41,7 +41,7 @@ def most_popular_authors():
         AND log.path = CONCAT('/article/', articles.slug)
         GROUP BY authors.name ORDER BY views DESC;"""
     popular_authors = run_query(query)
-    print ('MOST POPULAR ARTICLE AUTHORS OF ALL TIME')
+    print('MOST POPULAR ARTICLE AUTHORS OF ALL TIME')
     list_order = 1
     for i in popular_authors:
         print(str(list_order) + '.' + i[0] + ' - ' + str(i[1]) + ' views')
@@ -56,9 +56,10 @@ def days_request_errors():
         FROM error_percentage
         WHERE error_perc > 1;"""
     days_errors = run_query(query)
-    print ('DAYS HAVE MORE THAN 1% OF REQUESTS LEAD TO ERRORS')
+    print('DAYS HAVE MORE THAN 1% OF REQUESTS LEAD TO ERRORS')
     for i in days_errors:
         print(str(i[0]) + ' - ' + str(round(i[1], 2)) + ' % errors')
+
 
 if __name__ == '__main__':
     popular_three_articles()
